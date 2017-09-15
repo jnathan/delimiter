@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """Generates three delimited input test files: a pipe delimited file, a comma
-delimited file, and a space delimited file. Each row is compowed of five
+delimited file, and a space delimited file. Each row is composed of five
 fields: last name, first name, gender, favorite color, and date of birth.
 
 """
