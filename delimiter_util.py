@@ -4,10 +4,10 @@ import argparse
 import os
 import sys
 
-import parser
+import delimiter_reader
 
 def main(args):
-    dp = parser.DelimiterReader()
+    dp = delimiter_reader.DelimiterReader()
     for input_file in args.files:
         dp.read_file(input_file)
     if args.mode == 'Output1':
