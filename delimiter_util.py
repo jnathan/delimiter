@@ -17,9 +17,6 @@ def main(args):
     elif args.mode == 'Output3':
         dp.sort_lastname(descending=True)
     dp.print_rows()
-    #print "\n\nAfter sorting by birthdate\n\n"
-    #dp.sort_gender()
-    #dp.print_rows()
 
 if __name__ == '__main__':
     epilog = ("\n\nmode is one of:\n\n"
@@ -34,7 +31,6 @@ if __name__ == '__main__':
     ap.add_argument('-mode', type=str, default='Output1',
                     help='Specifies the output mode. One of: Output1, Output2, or Output3')
     args = ap.parse_args()
-    #print dir(ap)
     if args.mode not in ['Output1', 'Output2', 'Output3']:
         sys.stderr.write("\nError: Invalid output mode argument")
         sys.stderr.write(ap.epilog)
