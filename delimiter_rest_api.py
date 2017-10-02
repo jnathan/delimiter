@@ -50,6 +50,6 @@ if __name__ == '__main__':
         sys.exit(1)
     else:
         for _datafile in app.config.get('data_files'):
-            print "reading {}".format(_datafile)
+            sys.stdout.write("Reading data file: {}\n".format(_datafile))
             dr.read_file(_datafile)
     app.run(debug=True)
