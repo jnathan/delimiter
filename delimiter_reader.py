@@ -12,10 +12,16 @@ class DelimiterReaderException(Exception):
 
 class DelimiterReader(object):
     """DelimitedReader is a class for manipulating columnar data separated by
-    various delimiters. Data can be sorted by a single column as well as
-    accessed via web service.
+    the delimiters: ',' (comma or CSV), ' ' (space), and '|' (pipe).
+    Data is in a row format, composed of five fields:
+    last name, first name, gender, favorite color, and birthdate.
+
+    Several accessor methods are available for sorting, reformatting
+    birthdate from a string to an integer (for sorting), and marshalling data
+    for either printing or for being returned in a JSON document.
 
     """
+
     def __init__(self):
         self.rows = []
 
@@ -80,6 +86,9 @@ class DelimiterReader(object):
 
     def sort_birthdate(self):
         self.rows.sort(key=lambda x: x[4])
+
+    def sort_gender(self):
+        self.rows.sort(key=lambda x: x[2])
 
     def sort_lastname(self, descending=False):
         self.rows.sort(reverse=descending)
