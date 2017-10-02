@@ -29,7 +29,11 @@ def generate_birthday(year, month):
 
     leap_year = False
 
-
+    # Ensure a sane month and year
+    if month < 1 or month > 12:
+        raise ValueError("Invalid month")
+    if year < 0:
+        raise ValueError("Invalid year")
     # April, June, and November have 30 days per-month
     if month in [4, 6, 11]:
         day = random.randint(1, 30)
@@ -57,13 +61,6 @@ def generate_birthday(year, month):
     else:
         day = random.randint(1, 31)
 
-    # Create a struct_time object using the data from above
-    #tm = time.struct_time((year, month, day, 0, 0, 0, 0, 0, 0))
-
-    # Convert the struct_time object to an epoch time
-    #ts = int(time.mktime(tm))
-    # Return it as a string
-    #return str(ts)
     # Return the birthday as a string in the form MM/DD/YY
     return "{:d}/{:d}/{:d}".format(month, day, year)
 

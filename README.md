@@ -10,7 +10,7 @@ delimiter_rest_api.py:  A REST API for simple data retrieval and creating new en
 
 ## Installation
 
-This tool chain requres Flask 0.12 
+This tool chain requres Flask 0.12 and nose (for unit testing)
 
 ## REST API Reference
 
@@ -22,6 +22,10 @@ GET  /records/name      - returns records sorted by last name (ascending)
 POST /records           - posts a record composed of the fields, delimited using any of the delimiters listed
                           above. The post must use the parameter record in the form:
                           curl -X post "record=First|Last|Female|Orange|11/22/1963" http://localhost:5000/records
+
+## Tests
+
+To run unit tests simpy run the the run_tests.sh script
 
 ## License
 
