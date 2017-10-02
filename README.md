@@ -12,6 +12,10 @@ delimiter_rest_api.py:  A REST API for simple data retrieval and creating new en
 
 This tool chain requres Flask 0.12 and nose (for unit testing)
 
+## General Instructions
+
+Generate data files using util/data_generator.py and copy them into the directory containing delimiter_util.py and delimiter_rest_api.py . With these files generated, one may begin manipulating data and accessing it via the REST API.
+
 ## REST API Reference
 
 Four URIs are exposed via the REST interface:

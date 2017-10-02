@@ -115,8 +115,7 @@ class DelimiterReader(object):
                     row_with_ts = self.row_birthdate_to_ts(row)
                     self.rows.append(row_with_ts)
             except ValueError as exc:
-                sys.stderr.write("Skipping invalid data in {} at line "
-                                 "number {:d}\n".format(input_file, line_number))
+                sys.stderr.write("Skipping invalid data at line number {:d}\n".format(line_number))
                 sys.stderr.write("Erring line generated error: {}\n").format(exc)
                 line_number += 1
 
