@@ -7,16 +7,18 @@ import sys
 import delimiter_reader
 
 def main(args):
-    dp = delimiter_reader.DelimiterReader()
+    dr = delimiter_reader.DelimiterReader()
     for input_file in args.files:
-        dp.read_file(input_file)
+        dr.read_file(input_file)
     if args.mode == 'Output1':
-        dp.sort_gender_then_lastname()
+        dr.sort_gender_then_lastname()
     elif args.mode == 'Output2':
-        dp.sort_birthdate()
+        dr.sort_birthdate()
     elif args.mode == 'Output3':
-        dp.sort_lastname(descending=True)
-    dp.print_rows()
+        dr.sort_lastname(descending=True)
+    _rows = dr.render_rows(fmt='str')
+    for _row in _rows:
+        print _row
 
 if __name__ == '__main__':
     epilog = ("\n\nmode is one of:\n\n"

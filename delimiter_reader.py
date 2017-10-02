@@ -2,6 +2,7 @@
 
 import argparse
 import csv
+import json
 import os
 import sys
 import time
@@ -83,12 +84,11 @@ class DelimiterReader(object):
     def sort_lastname(self, descending=False):
         self.rows.sort(reverse=descending)
 
-    def print_rows(self):
-        for row in self.rows:
-            row_with_birthdate = self.row_ts_to_birthdate(row)
-            print "{} {} {} {} {}".format(row_with_birthdate[0],
-                                          row_with_birthdate[1],
-                                          row_with_birthdate[2],
-                                          row_with_birthdate[3],
-                                          row_with_birthdate[4])
+    def render_rows(self, fmt='str'):
+        _rows = map(self.row_ts_to_birthdate, self.rows)
+        if fmt == 'str':
+            _rows = ["{} {} {} {} {}".format(r[0], r[1], r[2], r[3], r[4]) for r in _rows]
+            return _rows
+        elif fmt == 'json':
+            return(json.dumps(_rows))
 
