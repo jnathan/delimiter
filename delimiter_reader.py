@@ -69,48 +69,56 @@ class DelimiterReader(object):
         converted.append(birthdate)
         return converted
 
-    def detect_dialect(self, input_file):
-        """Given an input file, utilize the csv.Sniffer() class to determine
+    def detect_dialect(self, in_fd):
+        """Given an input file descriptor, utilize the csv.Sniffer() class to determine
         the dialect of the file.  Any axceptions raised by this method must be
         caught by the caller.
 
         """
 
-        with open(input_file, 'rb') as in_fd:
-            input_file_dialect = csv.Sniffer().sniff(in_fd.read(2048))
+        input_file_dialect = csv.Sniffer().sniff(in_fd.read(2048))
+        in_fd.seek(0)
         return input_file_dialect
 
     def read_file(self, input_file):
-        """Given an input file, parses the input into a list of lists,
-        storing the results in the class variable `rows'.
+        """Wrapper function for reading rows of data from files on disk. Calls
+        read_rows() to actually read the rows of data.
 
         Returns: None
 
         """
 
-        line_number = 1
         try:
             # Attempt to determine the dialect of the input file
-            input_file_dialect = self.detect_dialect(input_file)
             with open(input_file, 'rb') as in_fd:
-                d_reader = csv.reader(in_fd, input_file_dialect)
-                for row in d_reader:
-                    try:
-                        # Check to ensure that each line has 5 fields
-                        if len(row) != 5:
-                            raise ValueError("Incorrect number of fields")
-                        else:
-                            row_with_ts = self.row_birthdate_to_ts(row)
-                            self.rows.append(row_with_ts)
-                    except ValueError as exc:
-                        sys.stderr.write("Skipping invalid data in {} at line "
-                                         "number {:d}\n".format(input_file, line_number))
-                        sys.stderr.write("Erring line generated error: {}\n").format(exc)
-                    line_number += 1
-
+                self.read_rows(in_fd)
         except (IOError, OSError, csv.Error) as exc:
             raise DelimiterReaderException("Failed to parse file: {} "
                                   "({})".format(input_file, exc))
+
+    def read_rows(self, in_fd):
+        """Given an input file descriptor, parses the input into a list of lists,
+        storing the results in the class variable `rows'.
+
+        Returns: None
+
+        """
+        input_file_dialect = self.detect_dialect(in_fd)
+        d_reader = csv.reader(in_fd, input_file_dialect)
+        line_number = 1
+        for row in d_reader:
+            try:
+                # Check to ensure that each line has 5 fields
+                if len(row) != 5:
+                    raise ValueError("Incorrect number of fields")
+                else:
+                    row_with_ts = self.row_birthdate_to_ts(row)
+                    self.rows.append(row_with_ts)
+            except ValueError as exc:
+                sys.stderr.write("Skipping invalid data in {} at line "
+                                 "number {:d}\n".format(input_file, line_number))
+                sys.stderr.write("Erring line generated error: {}\n").format(exc)
+                line_number += 1
 
     def sort_gender_then_lastname(self):
         """Sorts all rows in-place: first by gender, and then by last name."""

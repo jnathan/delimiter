@@ -1,12 +1,31 @@
 #!/usr/bin/env python
 
+import cStringIO
 import sys
 from flask import Flask
+from flask import jsonify
+from flask import make_response
+from flask import request
 
 import delimiter_reader
 
 app = Flask(__name__)
 dr = delimiter_reader.DelimiterReader()
+
+@app.route('/records', methods=['POST'])
+def submit_record():
+    data_dict = request.form
+    # Create a file-like object using the data from the HTTP Post
+    # The data from the post is stored in the key 'record'
+    record = data_dict.get('record')
+    if not record:
+        return jsonify({'error':"parameter 'record' not found in POST"}), 400
+        abort(400)
+    else:
+        data_fd = cStringIO.StringIO(record)
+        dr.read_rows(data_fd)
+        sys.stderr.write("{}\n".format(data_dict.items()))
+    return jsonify({'record':data_dict['record']}), 201
 
 @app.route('/records/gender', methods=['GET'])
 def get_records_by_gender():
