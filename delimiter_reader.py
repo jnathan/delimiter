@@ -92,7 +92,7 @@ class DelimiterReader(object):
             # Attempt to determine the dialect of the input file
             with open(input_file, 'rb') as in_fd:
                 self.read_rows(in_fd)
-        except (IOError, OSError, csv.Error) as exc:
+        except (IOError, OSError, ValueError, csv.Error) as exc:
             raise DelimiterReaderException("Failed to parse file: {} "
                                   "({})".format(input_file, exc))
 

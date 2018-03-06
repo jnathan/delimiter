@@ -7,7 +7,11 @@ import sys
 import delimiter_reader
 
 def main(args):
-    dr = delimiter_reader.DelimiterReader()
+    try:
+        dr = delimiter_reader.DelimiterReader()
+    exept delimiter_reader.DelimiterReaderException as exc:
+        sys.stderr.write("Error: {}\n".format(exc))
+        sys.exit(1)
     for input_file in args.files:
         dr.read_file(input_file)
     if args.mode == 'Output1':

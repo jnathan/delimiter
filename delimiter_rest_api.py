@@ -51,5 +51,10 @@ if __name__ == '__main__':
     else:
         for _datafile in app.config.get('data_files'):
             sys.stdout.write("Reading data file: {}\n".format(_datafile))
-            dr.read_file(_datafile)
+            try:
+                dr.read_file(_datafile)
+            except delimiter_reader.DelimiterReaderException as exc:
+                sys.stderr.write("Error: {}\n".format(exc))
+                sys.exit(1)
+
     app.run(debug=True)
